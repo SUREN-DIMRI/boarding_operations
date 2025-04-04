@@ -39,6 +39,9 @@ public class UserService implements UserDetailsService {
     public UserDTO createUser(UserRequestDTO userRequestDTO) {
         // Convert DTO to Entity
         User user = userMapper.toEntity(userRequestDTO);
+        
+        // Encrypt password
+        user.setPassword(passwordEncoder.encode(user.getPassword())); // Encrypt password
 
         // Save user to DB
         user = userRepository.save(user);
@@ -120,7 +123,7 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                Collections.singleton(new SimpleGrantedAuthority(user.getRoleId() == 1 ? "ADMIN" : "USER"))
+                Collections.singleton(new SimpleGrantedAuthority(user.getRoleId() == 1 ? "ROLE_ADMIN" : "ROLE_USER"))
         );
     }
 

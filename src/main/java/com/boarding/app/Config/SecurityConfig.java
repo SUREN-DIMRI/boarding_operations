@@ -3,6 +3,7 @@ package com.boarding.app.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -18,6 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.boarding.app.Entity.User;
 import com.boarding.app.Service.UserService;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 @EnableWebSecurity
@@ -48,7 +50,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/api/users/create" , "/api/users/delete/{id}" , "/api/users/update/{id}").permitAll()
+                                .requestMatchers("/api/users/create" , "/api/users/delete/{id}" , "/api/users/update/**" , "/api/module1/submit").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/module1/submit").permitAll()
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
                                 .anyRequest().authenticated()
@@ -58,6 +61,21 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+
+//     @Bean
+// public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//     http
+//         .csrf(csrf -> csrf.disable())
+//         .authorizeHttpRequests(auth -> auth
+//             .anyRequest().permitAll()  // 🔥 Permit everything for testing
+//         )
+//         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+//     return http.build();
+// }
+
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
