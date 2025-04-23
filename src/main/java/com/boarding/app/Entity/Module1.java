@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 public class Module1 {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "module1_seq")
+    @SequenceGenerator(name = "module1_seq", sequenceName = "module1_seq", allocationSize = 1)
     private Long id;
 
     private String vesselBoatName;
@@ -43,11 +44,11 @@ public class Module1 {
     private String communicationAndSafetyEquipment;
 
     @Lob
-    @Column(columnDefinition = "LONGBLOB")
+    @Column(columnDefinition = "BLOB")
     private byte[] photoVesselBoat;
 
     @Lob
-    @Column(columnDefinition = "LONGBLOB")
+    @Column(columnDefinition = "BLOB")
     private byte[] photoVideoVesselBoat;
 
     @Lob
