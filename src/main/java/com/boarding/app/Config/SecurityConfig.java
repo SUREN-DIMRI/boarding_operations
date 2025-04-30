@@ -43,6 +43,8 @@ public class SecurityConfig {
 
                 // Everything else requires authentication
                 .anyRequest().authenticated()
+
+                
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 

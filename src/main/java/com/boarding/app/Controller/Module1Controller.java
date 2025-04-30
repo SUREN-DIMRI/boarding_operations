@@ -22,11 +22,11 @@ public class Module1Controller {
 
     @PostMapping(value = "/submit", consumes = "multipart/form-data")
     public ResponseEntity<?> submitForm(
-            @RequestPart("form") String formJson,
-            @RequestPart(value = "photoVesselBoat", required = false) MultipartFile photo,
-            @RequestPart(value = "photoVideoVesselBoat", required = false) MultipartFile video
-    ) throws IOException {
-
+        @RequestPart("form") String formJson,
+        @RequestPart(value = "photoVesselBoat", required = false) MultipartFile photo,
+        @RequestPart(value = "photoVideoVesselBoat", required = false) MultipartFile video
+        ) throws IOException {
+        System.out.println("🎯 Received form submission");    
         // Convert JSON string to Module1 object
         Module1 form = objectMapper.readValue(formJson, Module1.class);
 
